@@ -6,16 +6,19 @@ This monorepo was created to showcase some of the fun projects done whilst learn
 
 ## Directory
 
-- [Week 1 - Setting up your System - GitHub Pages][wk1]
-- [Week 2 - Computational Thinking - Bouncing Balls][wk2]
-- [Week 3 - Mental Model Of Computing Operations - Big Bang][wk3]
-- [Week 4 - Intro to JavaScript - PacMen Exercise][wk4]
-- [Week 5 - Functions, Array Manipulation & Scope - Walk Boston Data][wk5]
-- [Week 6 - Callbacks - Word Count][wk6]
-- [Week 7 - GitHub, Testing and the DOM - PacMen Factory][wk7]
-- [Week 8 - Styles & BootStrap - Eye Exercise][wk8]
-- [Week 9 - Asynchronous Code - Real Time Bus Tracker][wk9]
-- [Week 10 - Intro to CyberSecurity and Recursion - Rotate Matrix Exercise][wk10]
+
+| Section | Description | Exercise |
+| :-: | :-- | :-: |
+| Week 1 | Setting up your System | [GitHub Pages][wk1] |
+| Week 2 | Computational Thinking | [Bouncing Balls][wk2] |
+| Week 3 | Mental Model Of Computing Operations | [Big Bang][wk3] |
+| Week 4 | Intro to JavaScript | [PacMen Exercise][wk4] |
+| Week 5 | Functions, Array Manipulation & Scope | [Walk Boston Data][wk5] |
+| Week 6 | Callbacks | [Word Count][wk6] |
+| Week 7 | GitHub, Testing and the DOM | [PacMen Factory][wk7] |
+| Week 8 | Styles & BootStrap | [Eye Exercise][wk8] |
+| Week 9 | Asynchronous Code | [Real Time Bus Tracker][wk9] |
+| Week 10 | Intro to CyberSecurity and Recursion | [Rotate Matrix Exercise][wk10] |
 
 ## License
 
