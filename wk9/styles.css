@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.alert {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+}
+
+.card {
+    position: absolute;
+    z-index: 9999;
+    left: 1rem;
+    top: 1rem;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.card-body {
+    overflow: hidden;
+}
+
+.marker svg path {
+    fill: currentColor;
+}

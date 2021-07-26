@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Map Animation</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+    <link href="./styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="map"></div>
+    <div class="card rounded bg-white">
+        <div class="card-body">
+            <button id="togglebutton" class='btn btn-dark w-100' onclick="togglePoller()" disabled>
+            Pause live data feed
+             <span class="spinner-grow spinner-grow-sm mx-2" style="visibility: hidden" role="status" aria-hidden="true"></span>
+            </button>
+            <div class="btn-group w-100 mt-2" role="group" aria-label="Selection buttons for data polling rates">
+                <input type="radio" class="btn-check" onclick="updatePollRate(this)" name="5s" id="5s" autocomplete="off">
+                <label class="btn btn-outline-primary" for="5s">5s</label>
+
+                <input type="radio" class="btn-check" onclick="updatePollRate(this)" name="30s" id="30s" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="30s">30s</label>
+
+                <input type="radio" class="btn-check" onclick="updatePollRate(this)" name="1m" id="1m" autocomplete="off">
+                <label class="btn btn-outline-primary" for="1m">1m</label>
+            </div>
+            <h5 class="card-title mt-3">Active Routes</h5>
+            <ul class="list-group list-group-flush" id="routelist">
+            </ul>
+        </div>
+    </div>
+    <script src="./mapanimation.js"></script>
+</body>
+
+</html>
