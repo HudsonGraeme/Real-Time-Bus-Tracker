@@ -201,6 +201,7 @@ const setNewData = (data) => {
         const listElement = document.createElement('li');
         listElement.className = "list-group-item";
         listElement.style.userSelect = 'none';
+        listElement.setAttribute('route', route)
         listElement.innerHTML = route;
         listElement.onclick = (event) => showRoutes(event);
         listElement.style.cursor = 'grab';
@@ -289,12 +290,10 @@ const displayAlert = (html, error) => {
  * @param {Object} e The event for onclick of one of the LI elements
  */
 const showRoutes = (e) => {
-    const route = e.target.innerHTML;
-    const routeToAsciiSum = [...route].map(c => c.charCodeAt(0)).reduce((a, b) => a + b);
-    const markers = [...document.getElementsByClassName('marker')].filter(marker => marker.getAttribute('route') === route.replaceAll('&amp;', '&'));
-    markers.forEach(marker => {
-        const filter = `sepia(25%) hue-rotate(${(Math.random()*1000 + routeToAsciiSum) * 2322334}deg) saturate(4483%)`;
-        marker.style.filter = filter;
-        e.target.style.filter = filter;
+    const route = e.target.innerHTML.replaceAll('&amp;', '&');
+    const filter = `sepia(25%) hue-rotate(83deg) saturate(4483%)`;
+    [...document.getElementsByClassName('marker')].forEach(marker => {
+        marker.style.filter = marker.getAttribute('route') === route && marker.style.filter !== filter ? filter : '';
     });
+    [...document.getElementsByTagName('li')].forEach(listItem => listItem.style.filter = (listItem.getAttribute('route') === route && listItem.style.filter !== filter ? filter : ''));
 }

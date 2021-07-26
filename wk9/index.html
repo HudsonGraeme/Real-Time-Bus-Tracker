@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Map Animation</title>
+    <title>Real Time Bus Tracker</title>
+    <link rel="icon" href="./images/BusMarker.svg">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
     <!-- CSS only -->
@@ -20,6 +21,7 @@
             Pause live data feed
              <span class="spinner-grow spinner-grow-sm mx-2" style="visibility: hidden" role="status" aria-hidden="true"></span>
             </button>
+            <h5 class="card-title mt-3">Data fetch rate</h5>
             <div class="btn-group w-100 mt-2" role="group" aria-label="Selection buttons for data polling rates">
                 <input type="radio" class="btn-check" onclick="updatePollRate(this)" name="5s" id="5s" autocomplete="off">
                 <label class="btn btn-outline-primary" for="5s">5s</label>
