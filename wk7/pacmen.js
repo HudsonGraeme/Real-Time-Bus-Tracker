@@ -4,6 +4,12 @@ let cardRect = {
   right: 0,
   bottom: 0
 };
+
+let images = [
+  ["images/pacman1.png", "images/pacman2.png"],
+  ["images/pacman3.png", "images/pacman4.png"]
+];
+
 let pacMen = [];
 
 
@@ -38,7 +44,7 @@ const makePac = () => {
   let game = document.getElementById('game');
   pacman.imgRef = document.createElement('img');
   pacman.imgRef.style.position = 'absolute';
-  pacman.imgRef.src = `./images/${+!pacman.direction.x}${+pacman.mouthOpen}.png`; // Set the initial image
+  pacman.imgRef.src = images[+!pacman.direction.x][+pacman.mouthOpen]; // Set the initial image
   pacman.imgRef.width = 100;
   pacman.imgRef.style.left = pacman.position.x;
   pacman.imgRef.style.top = pacman.position.y;
@@ -51,7 +57,7 @@ const makePac = () => {
       pacman.animationFrame = requestAnimationFrame(pacman.animateMouth);
         pacman.mouthOpen = !pacman.mouthOpen;
         // +! looks odd here, essentially we're forcing the Boolean's inverse value into an integer
-        pacman.imgRef.src = `./images/${+!pacman.direction.x}${+pacman.mouthOpen}.png`;
+        pacman.imgRef.src = images[+!pacman.direction.x][+pacman.mouthOpen];
     }, 250);
   };
 
