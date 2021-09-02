@@ -1,5 +1,7 @@
 # Week 14 - Yet Another Shopping List (YASL)
 
+[![Edit Shopping List](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/patient-haze-492r8?fontsize=14&hidenavigation=1&theme=dark)
+
 ## Description
 
 This is a simple shopping list web app made with ReactJS. It allows users the ability to add items through a text input, then increase, decrease and remove item quantities from a list. Users can copy individual items with their quantities or copy the entire list to their clipboard for easy pasting elsewhere.
