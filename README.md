@@ -20,6 +20,7 @@ This monorepo was created to showcase some of the fun projects done whilst learn
 | Week 9 | Asynchronous Code | [Real Time Bus Tracker][wk9] |
 | Week 10 | Intro to CyberSecurity and Recursion | [Rotate Matrix Exercise][wk10] |
 | Week 13 | Formik Login Form | [Formik Login Form][wk13] |
+| Week 14 | Todo List | [Todo List][wk14]
 
 ## License
 
@@ -37,3 +38,4 @@ All code within each subdirectory is free to use and has an MIT license.
 [wk9]: ./wk9 "Real Time Bus Tracker"
 [wk10]: ./wk10 "Rotate Matrix Exercise"
 [wk13]: ./wk13 "Formik Login Form"
+[wk14]: ./wk14 "Todo List Web App"
