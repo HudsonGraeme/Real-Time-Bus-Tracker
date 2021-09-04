@@ -1,6 +1,10 @@
+<!-- markdownlint-disable-next-line -->
+
 ![React ATM Logo](./atm.svg)
 
 # Week 15 - reactATM
+
+[![Edit reactATM](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/charming-tamas-w1s18?fontsize=14&hidenavigation=1&theme=dark)
 
 A simple ATM frontend application built using ReactJS and Bootstrap.
 
@@ -16,7 +20,7 @@ This is a simple frontend application that simulates the functionality of an ATM
 
 ## Installation
 
--   Download the project files `cd` into the downloaded directory and run your favourite http server to start the site. ([Live server](https://www.npmjs.com/package/live-server) is awesome)
+Download the project files `cd` into the downloaded directory and run your favourite http server to start the site. ([Live server](https://www.npmjs.com/package/live-server) is awesome)
 
 ## Usage
 
@@ -24,11 +28,11 @@ Open the site and enter a numerical value of the $ amount you intend to deposit.
 
 ## Support
 
--   If there are any bugs present feel free to create an issue in the parent repo, or make a PR.
+If there are any bugs present feel free to create an issue in the parent repo, or make a PR.
 
 ## Roadmap
 
--   This project is complete and will no longer be maintained unless a bug is found (an issue or PR is opened)
+This project is complete and will no longer be maintained unless a bug is found (an issue or PR is opened)
 
 ## License
 
