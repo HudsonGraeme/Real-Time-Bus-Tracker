@@ -1,0 +1,104 @@
+html,
+body {
+    background-color: #223;
+    color: #eee;
+    margin: 1rem;
+}
+
+button,
+input,
+select {
+    background: transparent;
+    border-width: 1px;
+    border-radius: 2px;
+    border-style: solid;
+    border-color: #eee;
+    color: #eee;
+    transition: all 0.2s;
+    outline: none;
+    opacity: 1;
+}
+
+button:hover,
+input:hover,
+select:hover {
+    background-color: #444;
+}
+
+button:disabled,
+button:disabled:hover {
+    background: #422;
+    border-color: #422;
+    opacity: 0.5;
+}
+
+select {
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+    padding: 0.5rem;
+}
+
+input:focus {
+    background-color: #444;
+}
+
+input {
+    padding-left: 1rem;
+}
+
+h2,
+h3 {
+    text-align: center;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    margin-bottom: 2rem;
+}
+
+p {
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+.atm {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.number-input {
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.submit {
+    display: block;
+    margin: auto;
+    width: 50%;
+}
+
+li.dark,
+ul.dark {
+    background-color: transparent;
+}
+
+ul.dark {
+    border-color: #222;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 1rem;
+}
+
+li.dark {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #eee;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
