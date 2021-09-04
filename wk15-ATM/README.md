@@ -1,3 +1,5 @@
+![React ATM Logo](./atm.svg)
+
 # Week 15 - reactATM
 
 A simple ATM frontend application built using ReactJS and Bootstrap.
