@@ -1,0 +1,108 @@
+body {
+    text-align: center;
+    color: #222;
+    background: #fafafa;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+input {
+    font-size: 16px;
+    border-style: solid;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border-color: #999;
+    background-color: transparent;
+    width: 20vw;
+    transition: all 0.2s;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.disabled {
+    background-color: #eee;
+    border-color: #eee;
+}
+
+.dropdown-values {
+    display: none;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: #eee;
+    width: 20vw;
+    max-height: 50vh;
+    overflow-y: auto;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 50;
+    position: absolute;
+}
+
+.dropdown-values div {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    z-index: -1;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-values div:hover {
+    background-color: #fafafa;
+}
+
+.show {
+    display: block;
+    box-shadow: 0px 0px 21px -5px #000;
+}
+
+.detail-cell {
+    border-style: solid;
+    border-radius: 5px;
+    border-color: #ee0;
+    margin: 2rem;
+    padding: 1rem;
+}
+
+.recalls-container {
+    max-height: 75vh;
+    max-width: 75vw;
+    overflow-y: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.open-button {
+    border: none;
+    background-color: #ccc;
+    color: #222;
+    font-size: large;
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.open-button:hover {
+    background-color: #bbb;
+}
+
+.inline {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.detail {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
