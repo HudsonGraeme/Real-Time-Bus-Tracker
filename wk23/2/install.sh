@@ -1,0 +1,1 @@
+(trap 'kill 0' SIGINT; (cd ./client && npm install) & (cd ./server && npm install) & wait)
