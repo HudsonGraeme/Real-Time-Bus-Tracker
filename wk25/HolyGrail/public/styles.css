@@ -1,0 +1,58 @@
+.grid {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: auto 1fr auto;
+  gap: 5px;
+  height: 90vh;
+}
+.section {
+  font-size: 2em;
+  font-weight: 800;
+}
+header,
+aside,
+article,
+footer {
+  border-style: solid;
+  padding: 1rem;
+  font-size: 1em;
+  user-select: none;
+}
+aside {
+  background: #98fb98;
+}
+article {
+  background: #ffccd6;
+}
+header,
+footer {
+  grid-column: 1 / 4;
+  background: #94c9fa;
+}
+body {
+  font-family: Arial;
+}
+
+.button {
+  fill: #222;
+  transition: all 0.1s;
+  border-radius: 15px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.button:hover {
+  box-shadow: rgba(50, 50, 50, 0.25) 0px 30px 60px -2px inset;
+}
+
+.button:active,
+.button:focus {
+  background: rgb(10, 122, 255);
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
