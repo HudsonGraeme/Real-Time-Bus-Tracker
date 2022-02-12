@@ -1,0 +1,17 @@
+{
+  "name": "bank_db",
+  "version": "1.0.0",
+  "description": "Bad Bank's Database",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "spencer@carspotter.ca",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "lowdb": "^1.0.0",
+    "mongodb": "^3.6.2"
+  }
+}
