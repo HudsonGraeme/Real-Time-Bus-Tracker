@@ -1,6 +1,6 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { routes } from './constants';
 import Logo from './images/BankLogo.png';
