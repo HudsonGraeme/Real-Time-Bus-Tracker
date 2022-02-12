@@ -11,52 +11,38 @@ import './Routes.css';
 const FourZeroFour = React.lazy(() => import('./pages/404'));
 
 const LoadingComponent = () => (
-    <div className="w-100 h-100 bg-light text-dark">
-        <img src={Logo} alt="Logo" height="256px" />
-        <h1 className="p-5">Loading...</h1>
-    </div>
+  <div className="w-100 h-100 bg-light text-dark">
+    <img src={Logo} alt="Logo" height="256px" />
+    <h1 className="p-5">Loading...</h1>
+  </div>
 );
 
 const Routes = () => {
-    const [loadingOpacity, setLoadingOpacity] = useState(1.0);
+  const RenderSuspenseful = ({ children }) => (
+    <React.Suspense fallback={<LoadingComponent />}>{children}</React.Suspense>
+  );
 
-    useEffect(() => {
-        const timeout = setTimeout(() => setLoadingOpacity(0.0), 200);
-    });
+  return (
+    <div className="App">
+      <Router>
+        <Header />
+        <Switch>
+          {routes.map((route) => (
+            <Route key={`route-${route.name}`} path={route.path} exact>
+              <RenderSuspenseful>{route.component}</RenderSuspenseful>
+            </Route>
+          ))}
 
-    const RenderSuspenseful = ({ children }) => (
-        <React.Suspense fallback={<LoadingComponent />}>
-            {children}
-        </React.Suspense>
-    );
-
-    return (
-        <div className="App">
-            <Router>
-                <Header />
-                <Switch>
-                    {routes.map((route) => (
-                        <Route
-                            key={`route-${route.name}`}
-                            path={route.path}
-                            exact
-                        >
-                            <RenderSuspenseful>
-                                {route.component}
-                            </RenderSuspenseful>
-                        </Route>
-                    ))}
-
-                    <Route>
-                        <RenderSuspenseful>
-                            <FourZeroFour />
-                        </RenderSuspenseful>
-                    </Route>
-                </Switch>
-                <Footer />
-            </Router>
-        </div>
-    );
+          <Route>
+            <RenderSuspenseful>
+              <FourZeroFour />
+            </RenderSuspenseful>
+          </Route>
+        </Switch>
+        <Footer />
+      </Router>
+    </div>
+  );
 };
 
 export default Routes;
