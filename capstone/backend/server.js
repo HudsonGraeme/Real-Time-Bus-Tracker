@@ -63,10 +63,10 @@ mongoose
   .catch((ex) => console.error('Failed to connect to MongoDB', ex));
 
 // Static frontend files
-const root = path.join(__dirname, '../build');
+const root = path.join(__dirname, '../stat');
 app.use(express.static(root));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../stat', 'index.html'));
 });
 app.listen(port);
 console.log('Running on port: ' + port);
