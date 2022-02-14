@@ -43,7 +43,7 @@ const userReducer = (state, action) => {
         break;
       }
 
-      ky.post('http://127.0.0.1:3000/auth/signup', {
+      ky.post('/auth/signup', {
         json: {
           ...action.user,
         },
