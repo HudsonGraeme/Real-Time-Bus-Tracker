@@ -24,7 +24,7 @@ const Routes = () => {
 
   return (
     <div className="App">
-      <Router>
+      <Router basename="/">
         <Header />
         <Switch>
           {routes.map((route) => (

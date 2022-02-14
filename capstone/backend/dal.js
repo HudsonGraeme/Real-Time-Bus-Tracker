@@ -1,74 +1,21 @@
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017';
-let db = null;
+var User = require('./models/User.js');
+var Transaction = require('./models/Transaction.js');
+const constants = require('./constants.js');
 
-// connect to mongo
-MongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
-    console.log("Connected successfully to db server");
+const findUserByEmail = (email) => User.findOne({ email });
 
-    // connect to myproject database
-    db = client.db('myproject');
-});
+const findUserById = (id) => User.findById(id);
 
-// create user account using the collection.insertOne function
-function create(name, email, password) {
-    return new Promise((resolve, reject) => {
-        const collection = db.collection('users');
-        const doc = { name, email, password, balance: 0 };
-        collection.insertOne(doc, { w: 1 }, (err, result) => err ? reject(err) : resolve(doc));
-    })
-}
+const addTransaction = (transactionData, user) => {
+  user.balance = parseFloat(user.balance) + parseFloat(transactionData.value);
+  let type = constants.transactionTypes.withdraw;
+  if (transactionData.value > 0) {
+    type = constants.transactionTypes.deposit;
+  }
+  user.transactions.push(
+    new Transaction({ ...transactionData, runningBalance: user.balance, type })
+  );
+  user.save();
+};
 
-// Find a user account
-function find(email) {
-    return new Promise((resolve, reject) => {
-        const customers = db
-            .collection('users')
-            .find({ email: email })
-            .toArray(function (err, docs) {
-                err ? reject(err) : resolve(docs);
-            });
-    })
-}
-
-// find user account
-function findOne(email) {
-    return new Promise((resolve, reject) => {
-        const customers = db
-            .collection('users')
-            .findOne({ email: email })
-            .then((doc) => resolve(doc))
-            .catch((err) => reject(err));
-    })
-}
-
-// update - deposit/withdraw amount
-function update(email, amount) {
-    return new Promise((resolve, reject) => {
-        const customers = db
-            .collection('users')
-            .findOneAndUpdate(
-                { email: email },
-                { $inc: { balance: amount } },
-                { returnOriginal: false },
-                function (err, documents) {
-                    err ? reject(err) : resolve(documents);
-                }
-            );
-
-
-    });
-}
-
-// return all users by using the collection.find method
-function all() {
-    return new Promise((resolve, reject) => {
-            db
-            .collection('users')
-            .find({})
-            .toArray((err, docs) => err ? reject(err) : resolve(docs))
-    })
-}
-
-
-module.exports = { create, findOne, find, update, all };
+module.exports = { findUserByEmail, findUserById, addTransaction };

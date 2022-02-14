@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { useReducer } from 'react';
 import { sessionStorageKeys } from '../constants';
 import { v4 as uuidv4 } from 'uuid';
+import ky from 'ky';
 const UserContext = createContext();
 
 const KEYS = {
@@ -41,6 +42,14 @@ const userReducer = (state, action) => {
         console.error('Cannot add a user without a user to add');
         break;
       }
+
+      ky.post('http://127.0.0.1:3000/auth/signup', {
+        json: {
+          ...action.user,
+        },
+      })
+        .then((response) => console.log(response))
+        .catch((ex) => console.error(ex));
       // Setup a new user, in addition to the provided info we'll add a default transaction,
       // their starting balance and a unique UUID
       newState = [
