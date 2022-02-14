@@ -1,6 +1,6 @@
 {
   "name": "bad_bank",
-  "homepage": "https://www.badbank.carspotter.ca",
+  "homepage": "https://capstone-hudsongraeme.vercel.app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
