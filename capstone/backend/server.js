@@ -66,8 +66,7 @@ mongoose
 const root = path.join(__dirname, '../build');
 app.use(express.static(root));
 app.get('*', (req, res) => {
-  res.sendFile('index.html', { root });
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
-
 app.listen(port);
 console.log('Running on port: ' + port);
