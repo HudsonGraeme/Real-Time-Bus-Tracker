@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, InputGroup, Button, Row, Form, Col } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -6,7 +6,7 @@ import { UserContext } from '../services/UserContext';
 import { useContext } from 'react';
 import { capitalize } from 'lodash';
 import { Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { routes } from '../constants';
 // Frontend validation
 const schema = Yup.object().shape({
@@ -31,22 +31,29 @@ const schema = Yup.object().shape({
 const CreateAccount = () => {
   const { createUser } = useContext(UserContext);
   const [alert, setAlert] = useState({});
-  // Once the alert is shown, hide it after 2.5s
-  useEffect(() => {
-    if (!alert.open) {
-      return;
-    }
-    const timeout = setTimeout(() => setAlert({}), 2500);
-    return () => clearTimeout(timeout);
-  }, [alert]);
+  const history = useHistory();
 
   const submitForm = (e) => {
-    createUser(e);
-    setAlert({
-      open: true,
-      type: 'success',
-      message: 'Successfully created a new account',
-    });
+    createUser(e)
+      .then(() => {
+        setAlert({
+          open: true,
+          type: 'success',
+          message: 'Successfully signed up',
+        });
+        history.push(routes.data.path);
+      })
+      .catch((ex) =>
+        setAlert({
+          open: true,
+          type: 'danger',
+          message:
+            'Failed to create an account. Please check your information and try again.',
+        })
+      )
+      .finally(() => {
+        setTimeout(() => setAlert({}), 2500);
+      });
   };
 
   return (

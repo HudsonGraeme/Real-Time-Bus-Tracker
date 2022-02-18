@@ -53,7 +53,7 @@ const options = {
 };
 
 const AllData = () => {
-  const { user, deleteUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
@@ -156,9 +156,6 @@ const AllData = () => {
           Current Balance: {formatCurrency(user.balance)}
         </h5>
       </Card.Body>
-      <Button variant="danger" onClick={() => deleteUser(user.id)}>
-        Delete User
-      </Button>
     </Card>
   );
 

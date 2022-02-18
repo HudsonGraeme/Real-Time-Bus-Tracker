@@ -6,7 +6,7 @@ import TransactionPage from '../components/TransactionPage';
 import capitalize from 'lodash/capitalize';
 
 const Withdraw = () => {
-  const { transact, user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const schema = Yup.object().shape({
     account: Yup.string().required(),
     amount: Yup.number()
@@ -28,7 +28,6 @@ const Withdraw = () => {
       validationSchema={schema}
       title={'Make a Withdrawal'}
       transactionType={'Withdraw'}
-      submitFunction={transact}
     />
   );
 };

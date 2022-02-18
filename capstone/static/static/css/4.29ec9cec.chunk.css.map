@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/styles/AllData.css"],"names":[],"mappings":"AAAA,uBACE,iBAAkB,CAClB,YACF","file":"4.29ec9cec.chunk.css","sourcesContent":[".alldata__table-scroll {\n  overflow-y: scroll;\n  height: 250px;\n}\n"]}

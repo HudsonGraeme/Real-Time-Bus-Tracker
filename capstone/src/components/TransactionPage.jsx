@@ -12,43 +12,40 @@ import { useContext } from 'react';
 import capitalize from 'lodash/capitalize';
 import { useState } from 'react';
 import { formatCurrency, validNumber } from '../services/Utilities';
-import { useEffect } from 'react';
 
-const TransactionPage = ({
-  title,
-  transactionType,
-  validationSchema,
-  submitFunction,
-  userSelectionSideEffect = () => {},
-}) => {
-  const { user } = useContext(UserContext);
+const TransactionPage = ({ title, transactionType, validationSchema }) => {
+  const { user, transact } = useContext(UserContext);
   const [alert, setAlert] = useState({});
 
-  // Once the alert is shown, hide it after 2.5s
-  useEffect(() => {
-    if (!alert.open) {
-      return;
-    }
-    const timeout = setTimeout(() => setAlert({}), 2500);
-    return () => clearTimeout(timeout);
-  }, [alert]);
-
   const submitForm = (amount) => {
-    if (transactionType === 'Withdraw' && amount > user.balance) {
-      setAlert({
-        open: true,
-        type: 'warning',
-        message:
-          'Successfully completed your transaction, however your account is in overdraft. Please make a deposit at your earliest convenience.',
+    transact(transactionType === 'Withdraw' ? -amount : amount)
+      .then(() => {
+        if (transactionType === 'Withdraw' && amount > user.balance) {
+          setAlert({
+            open: true,
+            type: 'warning',
+            message:
+              'Successfully completed your transaction, however your account is in overdraft. Please make a deposit at your earliest convenience.',
+          });
+        } else {
+          setAlert({
+            open: true,
+            type: 'success',
+            message: 'Successfully completed your transaction.',
+          });
+        }
+      })
+      .catch((ex) =>
+        setAlert({
+          open: true,
+          type: 'danger',
+          message:
+            'Failed to complete your transaction. Please check your information and try again.',
+        })
+      )
+      .finally(() => {
+        setTimeout(() => setAlert({}), 2500);
       });
-    } else {
-      setAlert({
-        open: true,
-        type: 'success',
-        message: 'Successfully completed your transaction.',
-      });
-    }
-    submitFunction(transactionType === 'Withdraw' ? -amount : amount);
   };
 
   return (

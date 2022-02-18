@@ -74,7 +74,11 @@ const Header = ({ location }) => {
                 </Nav.Link>
               </OverlayTrigger>
             ))}
-            {userExists ? <Nav.Link>{user.name}</Nav.Link> : null}
+            {userExists() ? (
+              <Nav.Link disabled className="text-secondary">
+                {`${user.first_name} ${user.last_name} (${user.email})`}
+              </Nav.Link>
+            ) : null}
           </Nav>
         </Navbar.Collapse>
       </Container>

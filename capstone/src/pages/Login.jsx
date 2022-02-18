@@ -8,6 +8,7 @@ import { capitalize } from 'lodash';
 import { Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { routes } from '../constants';
+import { useHistory } from 'react-router-dom';
 
 // Frontend validation
 const schema = Yup.object().shape({
@@ -21,16 +22,18 @@ const schema = Yup.object().shape({
 const Login = () => {
   const { signin } = useContext(UserContext);
   const [alert, setAlert] = useState({});
+  const history = useHistory();
 
   const submitForm = (e) => {
     signin(e)
-      .then(() =>
+      .then(() => {
         setAlert({
           open: true,
           type: 'success',
           message: 'Successfully signed in',
-        })
-      )
+        });
+        history.push(routes.data.path);
+      })
       .catch((ex) =>
         setAlert({
           open: true,

@@ -9,7 +9,6 @@ const UserContext = createContext();
 const KEYS = {
   LOAD_USER: 'LOAD_USER',
   TRANSACTION: 'TRANSACTION',
-  DELETE_USER: 'DELETE_USER',
 };
 
 const userReducer = (state, action) => {
@@ -32,20 +31,8 @@ const userReducer = (state, action) => {
       break;
     }
     case KEYS.TRANSACTION: {
-      if (!action.user || !action.value) {
-        console.error('Cannot withdraw without a value or user');
-        break;
-      }
       newState = { ...state, transactions: action.value };
 
-      break;
-    }
-    case KEYS.DELETE_USER: {
-      if (!action.user) {
-        console.error('Cannot remove a user without a username');
-        break;
-      }
-      newState = [...state.filter((usr) => usr.id !== action.user)];
       break;
     }
     default:
@@ -71,27 +58,20 @@ const Provider = ({ children }) => {
   const transact = (value) =>
     postTransaction({
       value,
-    })
-      .then((transactions) => {
-        dispatch({ type: KEYS.TRANSACTION, value: transactions });
-        fetchUser();
-      })
-      .catch((ex) => console.error('Failed to post transaction', ex));
+    }).then((transactions) => {
+      dispatch({ type: KEYS.TRANSACTION, value: transactions });
+      fetchUser();
+    });
 
-  const createUser = (user) => {
-    signUp(user)
-      .then((newData) => dispatch({ type: KEYS.LOAD_USER, user: newData }))
-      .catch((error) => console.error(error));
-  };
+  const createUser = (user) =>
+    signUp(user).then((newData) =>
+      dispatch({ type: KEYS.LOAD_USER, user: newData })
+    );
 
   const signin = (user) =>
     login(user).then((newData) =>
       dispatch({ type: KEYS.LOAD_USER, user: newData })
     );
-
-  const deleteUser = (user) => {
-    dispatch({ type: KEYS.DELETE_USER, user });
-  };
 
   const logout = () => {
     sessionStorage.clear();
@@ -110,7 +90,6 @@ const Provider = ({ children }) => {
         transact,
         createUser,
         signin,
-        deleteUser,
         fetchUser,
         logout,
       }}
