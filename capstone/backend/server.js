@@ -12,7 +12,8 @@ const bodyParser = require('body-parser');
 // Routes
 const authRoutes = require('./routes/auth.js');
 const transactionRoutes = require('./routes/transactions.js');
-
+const swaggerRoutes = require('./routes/swagger.js');
+const meRoutes = require('./routes/me.js');
 // Middleware
 const authMiddleware = require('./middleware/auth.js');
 
@@ -50,12 +51,14 @@ app.use(
 morganBody(app);
 // Routes
 app.use('/auth', authRoutes);
+app.use('/', authMiddleware, meRoutes);
 app.use('/transactions', authMiddleware, transactionRoutes);
 // Connect to Mongo
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    dbName: 'BadBank',
   })
   .then(() => {
     console.log('Successfully connected to Mongo');

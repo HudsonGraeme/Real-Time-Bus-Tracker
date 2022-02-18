@@ -1,30 +1,24 @@
 import * as Yup from 'yup';
 import { UserContext } from '../services/UserContext';
 import { useContext } from 'react';
-import { useState } from 'react';
 import { formatCurrency, validNumber } from '../services/Utilities';
 import TransactionPage from '../components/TransactionPage';
+import capitalize from 'lodash/capitalize';
 
 const Withdraw = () => {
-  const { users, withdraw } = useContext(UserContext);
-  const [selectedUser, setSelectedUser] = useState({});
+  const { transact, user } = useContext(UserContext);
   const schema = Yup.object().shape({
-    account: Yup.string()
-      .oneOf(
-        users.map((user) => user.id),
-        'Please select a valid account'
-      )
-      .required(),
+    account: Yup.string().required(),
     amount: Yup.number()
       .typeError('Please enter a valid, non-negative number')
       .min(0.01, 'Please enter a value above zero')
       .max(
-        validNumber(selectedUser.balance)
-          ? selectedUser.balance + 100
+        validNumber(user.balance)
+          ? user.balance + 100
           : Number.POSITIVE_INFINITY,
-        `Please enter a value below ${
-          selectedUser.name
-        }'s maximum overdraft limit (${formatCurrency(-100)})`
+        `Please enter a value below ${capitalize(
+          user.name
+        )}'s maximum overdraft limit (${formatCurrency(-100)})`
       )
       .required(),
   });
@@ -34,10 +28,7 @@ const Withdraw = () => {
       validationSchema={schema}
       title={'Make a Withdrawal'}
       transactionType={'Withdraw'}
-      submitFunction={withdraw}
-      userSelectionSideEffect={(userId) =>
-        setSelectedUser(users.find((usr) => usr.id === userId))
-      }
+      submitFunction={transact}
     />
   );
 };

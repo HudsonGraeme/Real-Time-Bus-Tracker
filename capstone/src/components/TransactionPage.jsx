@@ -9,7 +9,7 @@ import {
 import { Formik } from 'formik';
 import { UserContext } from '../services/UserContext';
 import { useContext } from 'react';
-import { capitalize } from 'lodash';
+import capitalize from 'lodash/capitalize';
 import { useState } from 'react';
 import { formatCurrency, validNumber } from '../services/Utilities';
 import { useEffect } from 'react';
@@ -21,8 +21,7 @@ const TransactionPage = ({
   submitFunction,
   userSelectionSideEffect = () => {},
 }) => {
-  const { users } = useContext(UserContext);
-  const [selectedUser, setSelectedUser] = useState({});
+  const { user } = useContext(UserContext);
   const [alert, setAlert] = useState({});
 
   // Once the alert is shown, hide it after 2.5s
@@ -34,11 +33,8 @@ const TransactionPage = ({
     return () => clearTimeout(timeout);
   }, [alert]);
 
-  const submitForm = (account, amount) => {
-    if (
-      transactionType === 'Withdraw' &&
-      amount > users.find(({ id }) => account === id).balance
-    ) {
+  const submitForm = (amount) => {
+    if (transactionType === 'Withdraw' && amount > user.balance) {
       setAlert({
         open: true,
         type: 'warning',
@@ -52,7 +48,7 @@ const TransactionPage = ({
         message: 'Successfully completed your transaction.',
       });
     }
-    submitFunction(account, amount);
+    submitFunction(transactionType === 'Withdraw' ? -amount : amount);
   };
 
   return (
@@ -62,12 +58,12 @@ const TransactionPage = ({
       <Card.Body>
         <Formik
           validationSchema={validationSchema}
-          onSubmit={({ account, amount }, { resetForm }) => {
-            submitForm(account, amount);
+          onSubmit={({ amount }, { resetForm }) => {
+            submitForm(amount);
             resetForm();
           }}
           initialValues={{
-            account: '',
+            account: user.email,
             amount: 0.0,
           }}
         >
@@ -88,37 +84,26 @@ const TransactionPage = ({
                     className="form-select mb-4"
                     value={values.account}
                     name="account"
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        setSelectedUser(
-                          e.target.value
-                            ? users.find(
-                                (user) => user.id === e.target.value
-                              ) || {}
-                            : {}
-                        );
-                        userSelectionSideEffect(e.target.value);
-                      }
-                      handleChange(e);
-                    }}
+                    disabled
                     isInvalid={!!errors.account}
                   >
-                    <option key="default" value="">
-                      -
+                    <option
+                      key={`option-account-${user.username}`}
+                      value={user.email}
+                    >
+                      {`${capitalize(user.first_name)} ${capitalize(
+                        user.last_name
+                      )} (${
+                        validNumber(user.balance)
+                          ? formatCurrency(user.balance)
+                          : 'Balance Error'
+                      }) ${
+                        validNumber(user.balance) &&
+                        parseFloat(user.balance) <= 0
+                          ? '***Overdraft***'
+                          : ''
+                      }`}
                     </option>
-                    {users.map((user) => (
-                      <option key={`option-account-${user.id}`} value={user.id}>
-                        {`${user.name} (${
-                          validNumber(user.balance)
-                            ? formatCurrency(user.balance)
-                            : 'Balance Error'
-                        }) ${
-                          validNumber(user.balance) && user.balance < 0
-                            ? '***Overdraft***'
-                            : ''
-                        }`}
-                      </option>
-                    ))}
                   </Form.Select>
                 </FloatingLabel>
               </Form.Group>
@@ -149,10 +134,9 @@ const TransactionPage = ({
                   validNumber(values.amount) &&
                   formatCurrency(values.amount)}
                 {isValid &&
-                  selectedUser.name &&
-                  ` ${transactionType === 'Withdraw' ? 'from' : 'into'} ${
-                    selectedUser.name
-                  }'s account`}
+                  ` ${
+                    transactionType === 'Withdraw' ? 'from' : 'into'
+                  } ${capitalize(user.first_name)}'s account`}
               </Button>
             </Form>
           )}

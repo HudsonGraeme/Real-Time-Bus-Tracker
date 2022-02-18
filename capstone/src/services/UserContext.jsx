@@ -1,100 +1,43 @@
-import { createContext } from 'react';
-import { useReducer } from 'react';
-import { sessionStorageKeys } from '../constants';
-import { v4 as uuidv4 } from 'uuid';
-import ky from 'ky';
+import { createContext, useReducer, useEffect, useCallback } from 'react';
+import { routes, sessionStorageKeys } from '../constants';
+import { getUserData, login, postTransaction, signUp } from './Requests';
+import { capitalizeEachWord } from './Utilities';
+import cloneDeep from 'lodash/cloneDeep';
+
 const UserContext = createContext();
 
 const KEYS = {
-  ADD_USER: 'ADD_USER',
-  WITHDRAW: 'WITHDRAW',
-  DEPOSIT: 'DEPOSIT',
+  LOAD_USER: 'LOAD_USER',
+  TRANSACTION: 'TRANSACTION',
   DELETE_USER: 'DELETE_USER',
-};
-
-/**
- * Update state with a new transaction
- * @param {Array} state The state of all users at the moment
- * @param {String} type The type of transaction. One of "WITHDRAW" or "DEPOSIT" (Defined in KEYS)
- * @param {String} userId The UUID of the user to be updated
- * @param {Number} value The value of the transaction. If the type is a withdrawal, this value is subtracted rather than added
- * @returns {Array} An updated version of the provided state object, containing the new transaction with a new balance for the modified user
- */
-const commitTransaction = (state, type, userId, value) => {
-  const user = state.find((usr) => usr.id === userId);
-  const floatValue = parseFloat(value);
-  user.balance += type === KEYS.WITHDRAW ? -floatValue : floatValue;
-  user.transactions.push({
-    type: type === KEYS.WITHDRAW ? 'Withdrawal' : 'Deposit',
-    value,
-    date: new Date(),
-    runningBalance: user.balance,
-  });
-  return [...state.filter((usr) => usr.id !== userId), user];
 };
 
 const userReducer = (state, action) => {
   let newState = state;
   switch (action.type) {
-    case KEYS.ADD_USER: {
+    case KEYS.LOAD_USER: {
       // These braces are odd, for some reason eslint doesn't determine scope properly without them. https://stackoverflow.com/questions/33397782/const-already-declared-in-es6-switch-block
       if (!action.user) {
         console.error('Cannot add a user without a user to add');
         break;
       }
+      const user = cloneDeep(action.user);
+      user.name = capitalizeEachWord(
+        [action.first_name, action.last_name].join(' ')
+      );
+      if (user.token) {
+        sessionStorage.setItem(sessionStorageKeys.token, user.token);
+      }
+      newState = { ...state, ...user };
+      break;
+    }
+    case KEYS.TRANSACTION: {
+      if (!action.user || !action.value) {
+        console.error('Cannot withdraw without a value or user');
+        break;
+      }
+      newState = { ...state, transactions: action.value };
 
-      ky.post('/auth/signup', {
-        json: {
-          ...action.user,
-        },
-      })
-        .then((response) => console.log(response))
-        .catch((ex) => console.error(ex));
-      // Setup a new user, in addition to the provided info we'll add a default transaction,
-      // their starting balance and a unique UUID
-      newState = [
-        ...state,
-        {
-          ...action.user,
-          id: uuidv4(),
-          transactions: [
-            {
-              type: 'Sign Up Bonus',
-              value: 100,
-              date: new Date(),
-              runningBalance: 100,
-            },
-          ],
-          balance: 100,
-        },
-      ];
-      break;
-    }
-    case KEYS.WITHDRAW: {
-      if (!action.user || !action.value) {
-        // No need for validNumber() since no transaction takes place for $0
-        console.error('Cannot withdraw without a value or user');
-        break;
-      }
-      newState = commitTransaction(
-        state,
-        KEYS.WITHDRAW,
-        action.user,
-        action.value
-      );
-      break;
-    }
-    case KEYS.DEPOSIT: {
-      if (!action.user || !action.value) {
-        console.error('Cannot withdraw without a value or user');
-        break;
-      }
-      newState = commitTransaction(
-        state,
-        KEYS.DEPOSIT,
-        action.user,
-        action.value
-      );
       break;
     }
     case KEYS.DELETE_USER: {
@@ -109,35 +52,68 @@ const userReducer = (state, action) => {
       console.error('userReducer called without an action type');
       break;
   }
-
-  // After any state update, we'll update session storage so that our data persists
-  sessionStorage.setItem(sessionStorageKeys.users, JSON.stringify(newState));
   return newState;
 };
 
 const Provider = ({ children }) => {
-  const [users, dispatch] = useReducer(
-    userReducer,
-    JSON.parse(sessionStorage.getItem(sessionStorageKeys.users)) || []
+  const [user, dispatch] = useReducer(userReducer, {});
+
+  const fetchUser = useCallback(
+    () =>
+      getUserData()
+        .then((user) => dispatch({ type: KEYS.LOAD_USER, user }))
+        .catch((err) => console.error('Failed to fetch user data', err)),
+    []
   );
 
-  const withdraw = (user, value) =>
-    dispatch({ type: KEYS.WITHDRAW, user, value });
+  useEffect(fetchUser, [fetchUser]);
 
-  const deposit = (user, value) =>
-    dispatch({ type: KEYS.DEPOSIT, user, value });
+  const transact = (value) =>
+    postTransaction({
+      value,
+    })
+      .then((transactions) => {
+        dispatch({ type: KEYS.TRANSACTION, value: transactions });
+        fetchUser();
+      })
+      .catch((ex) => console.error('Failed to post transaction', ex));
 
   const createUser = (user) => {
-    dispatch({ type: KEYS.ADD_USER, user });
+    signUp(user)
+      .then((newData) => dispatch({ type: KEYS.LOAD_USER, user: newData }))
+      .catch((error) => console.error(error));
   };
+
+  const signin = (user) =>
+    login(user).then((newData) =>
+      dispatch({ type: KEYS.LOAD_USER, user: newData })
+    );
 
   const deleteUser = (user) => {
     dispatch({ type: KEYS.DELETE_USER, user });
   };
 
+  const logout = () => {
+    sessionStorage.clear();
+    window.location.href = routes.login.path;
+  };
+
+  const userExists = () =>
+    !!Object.keys(user).length ||
+    sessionStorage.getItem(sessionStorageKeys.token);
+
   return (
     <UserContext.Provider
-      value={{ users, withdraw, deposit, createUser, deleteUser }}
+      value={{
+        user,
+        userExists,
+        transact,
+        createUser,
+        signin,
+        deleteUser,
+        fetchUser,
+        logout,
+      }}
     >
       {children}
     </UserContext.Provider>

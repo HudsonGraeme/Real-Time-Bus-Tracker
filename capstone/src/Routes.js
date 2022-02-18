@@ -1,12 +1,15 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { routes } from './constants';
+import { UserContext } from './services/UserContext';
+import isEqual from 'lodash/isEqual';
 import Logo from './images/BankLogo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './Routes.css';
+import { Redirect } from 'react-router-dom';
 
 const FourZeroFour = React.lazy(() => import('./pages/404'));
 
@@ -18,6 +21,7 @@ const LoadingComponent = () => (
 );
 
 const Routes = () => {
+  const { userExists } = useContext(UserContext);
   const RenderSuspenseful = ({ children }) => (
     <React.Suspense fallback={<LoadingComponent />}>{children}</React.Suspense>
   );
@@ -27,9 +31,16 @@ const Routes = () => {
       <Router basename="/">
         <Header />
         <Switch>
-          {routes.map((route) => (
+          {Object.values(routes).map((route) => (
             <Route key={`route-${route.name}`} path={route.path} exact>
-              <RenderSuspenseful>{route.component}</RenderSuspenseful>
+              {!route.walled ||
+              (userExists() &&
+                !isEqual(route, routes.create_account) &&
+                !isEqual(route, routes.login)) ? (
+                <RenderSuspenseful>{route.component}</RenderSuspenseful>
+              ) : (
+                <Redirect to={userExists() ? '/data' : '/login'} />
+              )}
             </Route>
           ))}
 

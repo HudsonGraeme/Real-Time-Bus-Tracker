@@ -4,6 +4,13 @@ const validate = require('../middleware/validate.js');
 var { addTransaction } = require('../dal.js');
 const router = express.Router();
 
+/**
+ * @swagger
+ * /transactions:
+ *   patch:
+ *     summary: Submit a new transaction for the current user
+ *     description: Create a new transaction for the signed in user.
+ */
 router.patch(
   '/',
   [
@@ -12,8 +19,9 @@ router.patch(
       .isNumeric()
       .withMessage('Please enter a valid number')
       .custom(
-        // Ensure they're not tryna yoink some internet money
-        (value, { req }) => parseFloat(value) >= parseFloat(-req.user.balance)
+        // Ensure they're not trying to yoink some internet money
+        (value, { req }) =>
+          parseFloat(req.user.balance) + parseFloat(value) >= parseFloat(-100)
       )
       .withMessage(
         'Please enter a valid amount. You cannot withdraw more than your overdraft limit.'
@@ -31,6 +39,13 @@ router.patch(
   }
 );
 
+/**
+ * @swagger
+ * /transactions:
+ *   get:
+ *     summary: Fetch a list of the current user's transactions
+ *     description: Fetch all transactions associated to the current user
+ */
 router.get('/', (req, res, next) => {
   // If we have some transactions send them over
   if (req.user.transactions.length) {

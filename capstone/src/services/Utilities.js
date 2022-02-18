@@ -1,3 +1,6 @@
+import toLower from 'lodash/toLower';
+import startCase from 'lodash/startCase';
+
 const numberFormatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   style: 'currency',
@@ -38,4 +41,11 @@ const formatDate = (date) => {
  */
 const validNumber = (number) => number || number === 0;
 
-export { formatCurrency, validNumber, formatDate };
+/**
+ * Capitalize each word in a string
+ * @param {String} str The string containing separate words that need to be capitalized
+ * @returns {String} The input string where each word is lowercased except for the first character, which is uppercased
+ */
+const capitalizeEachWord = (str) => startCase(toLower(str));
+
+export { formatCurrency, validNumber, formatDate, capitalizeEachWord };

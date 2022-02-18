@@ -4,14 +4,9 @@ import { useContext } from 'react';
 import TransactionPage from '../components/TransactionPage';
 
 const Deposit = () => {
-  const { users, deposit } = useContext(UserContext);
+  const { transact } = useContext(UserContext);
   const schema = Yup.object().shape({
-    account: Yup.string()
-      .oneOf(
-        users.map((user) => user.id),
-        'Please select a valid account'
-      )
-      .required(),
+    account: Yup.string().required(),
     amount: Yup.number()
       .typeError('Please enter a valid, non-negative number')
       .min(0.01, 'Please enter a value above zero')
@@ -23,7 +18,7 @@ const Deposit = () => {
       title="Make a Deposit"
       transactionType={'Deposit'}
       validationSchema={schema}
-      submitFunction={deposit}
+      submitFunction={transact}
     />
   );
 };

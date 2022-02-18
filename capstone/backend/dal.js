@@ -12,7 +12,7 @@ const addTransaction = (transactionData, user) => {
   if (transactionData.value > 0) {
     type = constants.transactionTypes.deposit;
   }
-  user.transactions.push(
+  user.transactions.unshift(
     new Transaction({ ...transactionData, runningBalance: user.balance, type })
   );
   user.save();

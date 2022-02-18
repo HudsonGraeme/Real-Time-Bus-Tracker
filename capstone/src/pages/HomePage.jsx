@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Logo from '../images/BankLogo.png';
 import { routes } from '../constants';
 import { Link } from 'react-router-dom';
+import { sessionStorageKeys } from '../constants';
 
 const HomePage = () => (
   <Card className="w-50 mt-5 mx-5">
@@ -52,11 +53,17 @@ const HomePage = () => (
     </Card.Body>
     <Button
       variant="primary"
-      className="w-25 mx-auto d-block my-2 mb-5"
+      className="w-25 mx-auto d-block my-2 mb-5 inline-flex nowrap items-center space-between"
       as={Link}
-      to={routes.find((route) => route.name === 'Create Account').path}
+      to={
+        sessionStorage.getItem(sessionStorageKeys.token)
+          ? routes.data.path
+          : routes.create_account.path
+      }
     >
-      Click here to create an account
+      {sessionStorage.getItem(sessionStorageKeys.token)
+        ? 'View my data'
+        : 'Click here to create an account'}
     </Button>
   </Card>
 );

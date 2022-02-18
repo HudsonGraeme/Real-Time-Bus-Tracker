@@ -6,7 +6,8 @@ import { UserContext } from '../services/UserContext';
 import { useContext } from 'react';
 import { capitalize } from 'lodash';
 import { Alert } from 'react-bootstrap';
-
+import { Link } from 'react-router-dom';
+import { routes } from '../constants';
 // Frontend validation
 const schema = Yup.object().shape({
   first_name: Yup.string('ss')
@@ -22,13 +23,13 @@ const schema = Yup.object().shape({
     .default('')
     .required('Please enter a valid password')
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
       'Ensure your password contains 8 characters - One Uppercase, One Lowercase, One Number and One Special Character'
     ),
 });
 
 const CreateAccount = () => {
-  const { createUser, users } = useContext(UserContext);
+  const { createUser } = useContext(UserContext);
   const [alert, setAlert] = useState({});
   // Once the alert is shown, hide it after 2.5s
   useEffect(() => {
@@ -49,12 +50,12 @@ const CreateAccount = () => {
   };
 
   return (
-    <Card className="mx-auto w-50 mt-5 p-5">
+    <Card className="mx-auto w-50 mt-5">
       {alert.open && <Alert variant={alert.type}>{alert.message}</Alert>}
-      <Card.Title className="mb-5 text-left display-4">
+      <Card.Title className="mb-5 pt-5 text-left display-4">
         Create an Account
       </Card.Title>
-      <Card.Body>
+      <Card.Body className="p-5">
         <Formik
           validationSchema={schema}
           onSubmit={(vals, { resetForm }) => {
@@ -71,45 +72,49 @@ const CreateAccount = () => {
         >
           {({ handleSubmit, handleChange, values, isValid, errors, dirty }) => (
             <Form onSubmit={handleSubmit}>
-              <Form.Group as={Row} className="my-2">
-                <Form.Label>First Name</Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    name="first_name"
-                    autoComplete="name"
-                    placeholder="John"
-                    value={values.first_name}
-                    isInvalid={!!errors.first_name}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {capitalize(errors.first_name)}
-                  </Form.Control.Feedback>
-                </InputGroup>
-                <Form.Label>Last Name</Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    name="last_name"
-                    autoComplete="name"
-                    placeholder="Doe"
-                    value={values.last_name}
-                    isInvalid={!!errors.last_name}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {capitalize(errors.last_name)}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
+              <Row>
+                <Form.Group as={Col} className="my-2">
+                  <Form.Label>First Name</Form.Label>
+                  <InputGroup hasValidation>
+                    <Form.Control
+                      type="text"
+                      name="first_name"
+                      autoComplete="given-name"
+                      placeholder="John"
+                      value={values.first_name}
+                      isInvalid={!!errors.first_name}
+                      onChange={handleChange}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {capitalize(errors.first_name)}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group as={Col} className="my-2">
+                  <Form.Label>Last Name</Form.Label>
+                  <InputGroup hasValidation>
+                    <Form.Control
+                      type="text"
+                      name="last_name"
+                      autoComplete="family-name"
+                      placeholder="Doe"
+                      value={values.last_name}
+                      isInvalid={!!errors.last_name}
+                      onChange={handleChange}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {capitalize(errors.last_name)}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </Form.Group>
+              </Row>
               <Form.Group as={Row} className="my-2">
                 <Form.Label>Username</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="text"
                     name="username"
-                    autoComplete="name"
+                    autoComplete="username"
                     placeholder="MrJohnDoe"
                     value={values.username}
                     isInvalid={!!errors.username}
@@ -133,7 +138,7 @@ const CreateAccount = () => {
                   <Form.Control
                     type="email"
                     name="email"
-                    autoComplete="username"
+                    autoComplete="email"
                     value={values.email}
                     isInvalid={!!errors.email}
                     placeholder="johndoe@mail.com"
@@ -173,12 +178,22 @@ const CreateAccount = () => {
                 disabled={!isValid || !dirty}
                 className="mt-5 w-25 mx-2 inline-block"
               >
-                {users.length ? 'Add another account' : 'Create Account'}
+                Create Account
               </Button>
             </Form>
           )}
         </Formik>
       </Card.Body>
+      <Card.Footer className="d-flex flex-row-reverse align-items-center">
+        <Button
+          variant="primary"
+          className="w-50"
+          as={Link}
+          to={routes.login.path}
+        >
+          Already have an account?
+        </Button>
+      </Card.Footer>
     </Card>
   );
 };
