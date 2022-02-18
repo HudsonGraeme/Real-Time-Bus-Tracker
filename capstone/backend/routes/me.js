@@ -7,6 +7,18 @@ const router = express.Router();
  *   get:
  *     summary: Fetch user data
  *     description: Get all data for a specific user
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - in: header
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: An authentication token which identifies and authorizes the user
+ *     responses:
+ *       '200':
+ *         description: User Data
  */
 router.get('/', async (req, res, next) => {
   const user = req.user;

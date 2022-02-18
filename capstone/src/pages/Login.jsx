@@ -72,7 +72,7 @@ const Login = () => {
                     type="text"
                     name="email"
                     autoComplete="email"
-                    placeholder="MrJohnDoe"
+                    placeholder="john@doe.net"
                     value={values.email}
                     isInvalid={!!errors.email}
                     onChange={handleChange}

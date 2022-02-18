@@ -10,6 +10,18 @@ const router = express.Router();
  *   patch:
  *     summary: Submit a new transaction for the current user
  *     description: Create a new transaction for the signed in user.
+ *     tags:
+ *       - Transactions
+ *     parameters:
+ *       - in: header
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: An authentication token which identifies and authorizes the user
+ *     responses:
+ *       '200':
+ *         description: All transactions for the current user
  */
 router.patch(
   '/',
@@ -45,6 +57,18 @@ router.patch(
  *   get:
  *     summary: Fetch a list of the current user's transactions
  *     description: Fetch all transactions associated to the current user
+ *     tags:
+ *       - Transactions
+ *     parameters:
+ *       - in: header
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: An authentication token which identifies and authorizes the user
+ *     responses:
+ *       '200':
+ *         description: All transactions made by the current user
  */
 router.get('/', (req, res, next) => {
   // If we have some transactions send them over

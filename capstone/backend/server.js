@@ -53,6 +53,7 @@ morganBody(app);
 app.use('/auth', authRoutes);
 app.use('/me', authMiddleware, meRoutes);
 app.use('/transactions', authMiddleware, transactionRoutes);
+app.use('/api', swaggerRoutes);
 // Connect to Mongo
 mongoose
   .connect(process.env.MONGO_URL, {

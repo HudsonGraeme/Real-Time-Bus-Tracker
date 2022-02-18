@@ -89,7 +89,11 @@ const AllData = () => {
         <h2>{`${user.first_name} ${user.last_name}`}</h2>
       </Card.Title>
       <Card.Body>
-        <h4 className="text-left">Recent Transactions</h4>
+        <h3 className="mt-4">
+          Current Balance: {formatCurrency(user.balance)}
+        </h3>
+        <hr />
+        <h3 className="text-left">Recent Transactions</h3>
         <Line
           options={options}
           data={chartData}
@@ -119,7 +123,8 @@ const AllData = () => {
               </tr>
             </thead>
             <tbody>
-              {user.transactions
+              {get(user, 'transactions', [])
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .map((transaction) => ({
                   ...transaction,
                   date: formatDate(Date.parse(transaction.date)),
@@ -151,10 +156,6 @@ const AllData = () => {
             </tbody>
           </Table>
         </div>
-
-        <h5 className="mt-4">
-          Current Balance: {formatCurrency(user.balance)}
-        </h5>
       </Card.Body>
     </Card>
   );

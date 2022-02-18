@@ -13,6 +13,8 @@ const router = express.Router();
  *   post:
  *     summary: Sign a new user up
  *     description: Create a new user in the bank's database.
+ *     tags:
+ *       - Authentication
  */
 router.post(
   '/signup',
@@ -90,6 +92,15 @@ router.post(
   }
 );
 
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Log into an existing user account
+ *     description: Log into a user account using a username and password
+ *     tags:
+ *       - Authentication
+ */
 router.post(
   '/login',
   [
