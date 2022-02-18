@@ -33,9 +33,10 @@ const CreateAccount = () => {
   const [alert, setAlert] = useState({});
   const history = useHistory();
 
-  const submitForm = (e) => {
+  const submitForm = (e, resetForm) => {
     createUser(e)
       .then(() => {
+        resetForm();
         setAlert({
           open: true,
           type: 'success',
@@ -66,8 +67,7 @@ const CreateAccount = () => {
         <Formik
           validationSchema={schema}
           onSubmit={(vals, { resetForm }) => {
-            submitForm(vals);
-            resetForm();
+            submitForm(vals, resetForm);
           }}
           initialValues={{
             first_name: '',

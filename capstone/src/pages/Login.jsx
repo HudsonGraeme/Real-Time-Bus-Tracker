@@ -24,9 +24,10 @@ const Login = () => {
   const [alert, setAlert] = useState({});
   const history = useHistory();
 
-  const submitForm = (e) => {
+  const submitForm = (e, resetForm) => {
     signin(e)
       .then(() => {
+        resetForm();
         setAlert({
           open: true,
           type: 'success',
@@ -55,8 +56,7 @@ const Login = () => {
         <Formik
           validationSchema={schema}
           onSubmit={(vals, { resetForm }) => {
-            submitForm(vals);
-            resetForm();
+            submitForm(vals, resetForm);
           }}
           initialValues={{
             email: '',

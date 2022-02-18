@@ -17,9 +17,10 @@ const TransactionPage = ({ title, transactionType, validationSchema }) => {
   const { user, transact } = useContext(UserContext);
   const [alert, setAlert] = useState({});
 
-  const submitForm = (amount) => {
+  const submitForm = (amount, resetForm) => {
     transact(transactionType === 'Withdraw' ? -amount : amount)
       .then(() => {
+        resetForm();
         if (transactionType === 'Withdraw' && amount > user.balance) {
           setAlert({
             open: true,
@@ -56,8 +57,7 @@ const TransactionPage = ({ title, transactionType, validationSchema }) => {
         <Formik
           validationSchema={validationSchema}
           onSubmit={({ amount }, { resetForm }) => {
-            submitForm(amount);
-            resetForm();
+            submitForm(amount, resetForm);
           }}
           initialValues={{
             account: user.email,
