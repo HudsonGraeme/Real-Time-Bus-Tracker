@@ -8,7 +8,7 @@ const router = express.Router();
  *     summary: Fetch user data
  *     description: Get all data for a specific user
  */
-router.get('/me', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   const user = req.user;
   res.status(200).json({
     username: user.username,

@@ -51,7 +51,7 @@ app.use(
 morganBody(app);
 // Routes
 app.use('/auth', authRoutes);
-app.use('/', authMiddleware, meRoutes);
+app.use('/me', authMiddleware, meRoutes);
 app.use('/transactions', authMiddleware, transactionRoutes);
 // Connect to Mongo
 mongoose
