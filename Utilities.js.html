@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Home</title>
+  <title> Utilities.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -73,113 +75,70 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p></p>
-                    <h1>Home</h1>
+                    <p>Source</p>
+                    <h1>Utilities.js</h1>
                 </header>
                 
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>Week 18 &amp; 27 - Bad Bank</h1>
-<h2>Description</h2>
-<p>The Bad Bank project consists of a backend and a frontend which provide a basic bank application interface that users are able to interact with. It supports withdrawals and deposits, and allows the ability to create and remove user accounts. Transaction histories are also available for each user.</p>
-<h2>Installation</h2>
-<ol>
-<li>Clone this repo using <code>git clone git@github.com:HudsonGraeme/xPro-Portfolio.git</code></li>
-<li>Navigate into the <code>wk18/bad_bank</code> folder using <code>cd xPro-Portfolio/wk18/bad_bank/</code></li>
-<li>Install required packages for the frontend and the backend using <code>yarn &amp; cd ./backend &amp;&amp; yarn &amp;&amp; cd ..</code></li>
-</ol>
-<h2>Screenshots</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Page</th>
-<th style="text-align:center">Screenshot</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Home</td>
-<td style="text-align:center"><img src="https://user-images.githubusercontent.com/25019680/149451325-b12128ca-dd67-4ee4-8b6e-786ffc2ceb71.png" alt="Home" title="Home Page"></td>
-</tr>
-<tr>
-<td style="text-align:center">Withdraw</td>
-<td style="text-align:center"><img src="https://user-images.githubusercontent.com/25019680/149451482-6473a6da-beca-4ed0-8b65-cea5abe0494f.png" alt="Withdraw" title="Withdraw Page"></td>
-</tr>
-<tr>
-<td style="text-align:center">Deposit</td>
-<td style="text-align:center"><img src="https://user-images.githubusercontent.com/25019680/149451614-9f762594-d1f3-4d9d-8dc4-cc7792c5cd19.png" alt="Deposit" title="Deposit Page"></td>
-</tr>
-<tr>
-<td style="text-align:center">Create Account</td>
-<td style="text-align:center"><img src="https://user-images.githubusercontent.com/25019680/149451686-a6ef6a30-4d41-4c07-ab90-5dedec09aa06.png" alt="Create Account" title="Create Account Page"></td>
-</tr>
-<tr>
-<td style="text-align:center">All Data</td>
-<td style="text-align:center"><img src="https://user-images.githubusercontent.com/25019680/149451734-4bed38c5-8d28-4c4a-a12f-5fbe02233628.png" alt="All Data" title="All Data Page"></td>
-</tr>
-</tbody>
-</table>
-<h2>Stack</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Location</th>
-<th style="text-align:center">Tech</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Frontend</td>
-<td style="text-align:center"><a href="https://reactjs.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2560px-React-icon.svg.png" height="100px"/></a></td>
-</tr>
-<tr>
-<td style="text-align:center">Backend</td>
-<td style="text-align:center"><a href="https://expressjs.com/"><img height="100" src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png"/></a></td>
-</tr>
-<tr>
-<td style="text-align:center">Database</td>
-<td style="text-align:center"><a href="https://redis.io"><img height="100" src="https://cdn.iconscout.com/icon/free/png-256/redis-4-1175103.png"/></a></td>
-</tr>
-</tbody>
-</table>
-<h2>Features</h2>
-<ul>
-<li>[x] Create new user accounts</li>
-<li>[x] View transaction lists on a user by user basis</li>
-<li>[x] Support for withdrawals and deposits</li>
-<li>[x] Ability to delete user accounts</li>
-<li>[x] Overdraft limit of $100</li>
-<li>[ ] Authentication and user scopes via backend</li>
-<li>[ ] Transaction processing in the backend</li>
-<li>[ ] Fees</li>
-<li>[ ] Credit card applications and functionality</li>
-</ul>
-<h2>License</h2>
-<p>This project is under the MIT license.</p></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>import toLower from 'lodash/toLower';
+import startCase from 'lodash/startCase';
+
+const numberFormatter = new Intl.NumberFormat('en-US', {
+  currency: 'USD',
+  style: 'currency',
+});
+
+const dateFormatter = new Intl.DateTimeFormat('default', {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+});
+
+/**
+ * Provides an interface to convert balances into formatted currency strings for display
+ * @param {Number} number The number to be formatted
+ * @returns {String} A formatted currency string
+ */
+const formatCurrency = (number) => {
+  const float = parseFloat(number);
+  return numberFormatter.format(float);
+};
+
+/**
+ * Formats the provided Date into a string
+ * @param {Date} date The date to be formatted
+ * @returns {String} A formatter datetime string
+ */
+const formatDate = (date) => {
+  return dateFormatter.format(date);
+};
+
+/**
+ * Determines whether or not a number exists (0 is truthy, null isn't)
+ * @param {Number} number The number that will be checked for a non existent value
+ * @returns {Boolean} True or false depending if the number exists or not
+ */
+const validNumber = (number) => number || number === 0;
+
+/**
+ * Capitalize each word in a string
+ * @param {String} str The string containing separate words that need to be capitalized
+ * @returns {String} The input string where each word is lowercased except for the first character, which is uppercased
+ */
+const capitalizeEachWord = (str) => startCase(toLower(str));
+
+export { formatCurrency, validNumber, formatDate, capitalizeEachWord };
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
