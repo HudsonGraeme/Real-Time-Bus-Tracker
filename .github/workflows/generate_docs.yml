@@ -21,8 +21,8 @@ jobs:
                   template: better-docs
                   front_page: ./capstone/README.md
 
-              - name: Deploy 🚀
-                uses: JamesIves/github-pages-deploy-action@v4.3.3
-                with:
+            - name: Deploy 🚀
+              uses: JamesIves/github-pages-deploy-action@v4.3.3
+              with:
                   branch: pages
                   folder: ./capstone/out
