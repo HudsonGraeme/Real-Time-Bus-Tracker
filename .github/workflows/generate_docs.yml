@@ -19,6 +19,7 @@ jobs:
                   output_dir: ./capstone/out
                   config_file: ./capstone/conf.js
                   template: better-docs
+                  recurse: true
                   front_page: ./capstone/README.md
 
             - name: Deploy 🚀
